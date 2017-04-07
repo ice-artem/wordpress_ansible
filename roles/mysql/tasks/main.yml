@@ -1,0 +1,27 @@
+---
+- name: Install MySQL packages
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - mysql-server
+
+- name: Create .my.cnf file with root password credentials
+  sudo: yes
+  template: src=.my.cnf.j2 dest=/root/my.cnf
+  notify:
+  - restart mysql
+
+- name: Start MySQL service
+  sudo: yes
+  service: name=mysql state=started enabled=yes
+
+- name: Create Application DB User
+  sudo: yes
+  mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present
+
+- name: Create Application Database
+  sudo: yes
+  mysql_db: name={{ dbname }} state=present
+
+- copy: src=wordpress2.sql dest=/tmp
+- mysql_db: name=worpress state=import target=/tmp/wordpress2.sql

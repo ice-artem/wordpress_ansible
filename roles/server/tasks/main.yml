@@ -1,0 +1,20 @@
+---
+# tasks file for server
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install required software
+  apt: name={{ item }} state=present
+  sudo: yes
+  with_items:
+    - apache2
+    - php
+    - php-mysql
+    - git
+    - libapache2-mod-php
+    - php-mcrypt
+    - python-mysqldb
+    
+- name: apache2 service state
+  service: name=apache2 state=started enabled=yes

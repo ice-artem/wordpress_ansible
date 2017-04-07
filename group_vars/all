@@ -1,0 +1,13 @@
+---
+
+repository: git@github.com:ice-artem/wordpress.git
+
+mysqlservice: mysql
+mysql_port: 3306
+dbuser: ice
+dbname: wordpress
+upassword: asdfgh
+
+
+# httpd_port: 80
+# ntpserver: ntp.time.in.ua

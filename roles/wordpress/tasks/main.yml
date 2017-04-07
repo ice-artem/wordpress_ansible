@@ -1,0 +1,12 @@
+---
+- name: Copy the code from repository
+  git: repo={{ repository }} dest=/var/www/wordpress/
+
+- name: update default Apache site
+  sudo: yes
+  lineinfile:
+    dest=/etc/apache2/sites-enabled/000-default.conf
+    regexp="(.)+DocumentRoot /var/www/html"
+    line="DocumentRoot /var/www/wordpress"
+  notify:
+    - restart apache
